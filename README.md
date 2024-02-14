@@ -2,6 +2,8 @@
 
 包括计算机网络，计算机图形学，并行程序设计，操作系统，Python
 
+并行还没发，等一会
+
 期末复盘在这：https://blog.csdn.net/fukioston/article/details/135566575
 
 follow me，谢谢！！
