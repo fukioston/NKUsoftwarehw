@@ -1,0 +1,502 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-4.4.1-dist/css/bootstrap.min.css' %}">
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex; /* 应用 Flexbox 布局 */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    height: 100vh; /* 使 body 高度占满视口高度 */
+    margin: 0; /* 移除默认的 margin */
+}
+#puzzle-container {
+    width: 312px;
+    height: 312px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+}
+
+.tile {
+    background-color: #87CEEB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    border: 1px solid #000;
+}
+
+.empty {
+    background-color: #FFFFFF;
+}
+
+#main-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: #F0F0F0; /* 大背景颜色 */
+    padding: 20px;
+    width: 900px;
+    height: 450px;
+}
+
+#puzzle-container {
+    width: 322px;
+    height: 322px;
+    display: grid;
+    {#position: relative;#}
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1px;
+    border: 5px solid #000;
+    border-radius: 10px; /* 圆角边框 */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+
+    /* 您可以添加更多样式 */
+}
+
+.tile {
+    background-color: #87CEEB; /* 可以尝试不同的颜色 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    {#border: 2px solid #000;#}
+    {#border-radius: 10px; /* 圆角边框 */#}
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+    transition: all 0.3s ease; /* 平滑过渡效果 */
+    {# position: absolute; /* 设置为绝对定位 */#}
+    {#width: calc(33.333% - 5px); /* 减去 grid-gap */#}
+    {#height: calc(33.333% - 5px); /* 减去 grid-gap */#}
+}
+
+.empty {
+    background-color: #FFFFFF;
+}
+
+#options-container {
+    display: flex;
+    flex-direction: column;
+    width: 350px; /* 根据需要调整宽度 */
+    /* 您可以添加更多样式 */
+}
+
+#algorithm-selector {
+    margin-top: 10px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.div1 {
+    width: 312px;
+    height: 312px;
+    display: grid;
+    {#position: relative;#}
+    grid-template-columns: repeat(3, 1fr);
+    background-color: #6C6C6C;
+}
+
+.div2 {
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin-left: 3px;
+    margin-top: 3px;
+    background-color: #225790;
+    text-align: center;
+    font-size: 80px;
+    color: #f8f8f8;
+    transition: all 0.8s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.div3 {
+    margin-top: 20px;
+    width: 512px;
+    height: 80px;
+    /*border: solid;*/
+    border-color: #000000;
+    text-align: center;
+}
+
+.buttonStyle {
+    width: 150px;
+    height: 50px;
+    font-size: 30px;
+    margin-top: 15px;
+    border-radius: 5%;
+    background-color: #97CBFF;
+}
+
+.timeText {
+    margin-left: 60px;
+    font-size: 30px;
+}
+
+.inputStyle {
+    float: auto;
+    width: 100px;
+    height: 30px;
+    font-size: 30px;
+}
+#index_0{
+    position: relative;
+    z-index: -1;
+}
+
+
+</style>
+<body>
+
+<div class="all">
+    <h1>八数码可视化</h1>
+<div id="main-container">
+        <div id="puzzle-container">
+            <div class="div1">
+                <div class="div2" data-x="0" data-y="0" data-gridrow="1" data-gridcol="1" data-id="1" id="index_1">1</div>
+                <div class="div2" data-x="0" data-y="0" data-gridrow="1" data-gridcol="2" data-id="2" id="index_2">2</div>
+                <div class="div2" data-x="0" data-y="0" data-gridrow="1" data-gridcol="3" data-id="3" id="index_3">3</div>
+                <div class="div2" data-x="0" data-y="0" data-gridrow="2" data-gridcol="1" data-id="4" id="index_4">4</div>
+                 <div class="div2" data-x="0" data-y="0" data-gridrow="2" data-gridcol="2" data-id="6" id="index_6">6</div>
+                 <div class="div2" data-x="0" data-y="0" data-gridrow="2" data-gridcol="3" data-id="8" id="index_8">8</div>
+                <div class="div2" data-x="0" data-y="0" data-gridrow="3" data-gridcol="1" data-id="7" id="index_7">7</div>
+                <div class="div2" data-x="0" data-y="0" data-gridrow="3" data-gridcol="2" data-id="5" id="index_5">5</div>
+        <div class="div2" data-x="0" data-y="0" data-gridrow="3" data-gridcol="3" data-id="0" style="background-color: #6C6C6C;" id="index_0">0</div>
+
+
+
+
+
+
+            </div>
+            </div>
+        <div id="options-container">
+            <h3>选择算法</h3>
+            <select id="algorithm-selector">
+                <option value="BFS">BFS</option>
+                <option value="DFS">DFS</option>
+                <option value="IDDFS">IDDFS</option>
+                <option value="A1">A*1</option>
+                <option value="A2">A*2</option>
+                <option value="A3">A*3</option>
+                <option value="A4">A*4</option>
+                <option value="Greedy">Greedy</option>
+                  <option value="Best">Best</option>
+                <!-- ... 其他算法选项 ... -->
+            </select>
+            <button id="submit">提交</button>
+            <button id="again">复原</button>
+{#            <button id="sx">刷新</button>#}
+            <div>
+
+                运行时间:<p id="time"></p>
+                路径长度：<p id="depth"></p>
+                遍历节点数：<p id="search_time"></p>
+            </div>
+
+        </div>
+    </div>
+
+
+    </div>
+    <div class="message"></div>
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script>
+    function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // 交换元素
+    }
+    return array;
+}
+
+const initialArray = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+const shuffledArray = shuffleArray([...initialArray]);
+   {#const shuffledArray = [2, 5, 4, 3, 0, 6, 1, 7, 8]#}
+function layoutGridItems(shuffledArray) {
+
+    shuffledArray.forEach((item, index) => {
+        const row = Math.floor(index / 3) + 1; // 计算行位置
+        const column = (index % 3) + 1; // 计算列位置
+        const gridItem = document.getElementById(`index_${item}`);
+        if (gridItem) {
+            gridItem.style.gridRow = row;
+            gridItem.style.gridColumn = column;
+            gridItem.setAttribute('data-gridrow',row)
+            gridItem.setAttribute('data-gridcol',column)
+
+        }
+    });
+}
+
+layoutGridItems(shuffledArray);
+$('#sx').click(function(){
+    const shuffledArray = shuffleArray([...initialArray]);
+    layoutGridItems(shuffledArray);
+})
+    var start=[[1,2,3],[4,6,8],[7,5,0]]
+const tiles = document.querySelectorAll('.tile');
+// 为每个方块添加输入事件监听器
+$('#again').click(function(){
+    var divObjArray = new Array(9);
+    for(var i = 0; i < divObjArray.length; i++) {
+        divObjArray[i] = document.getElementById("index_" + i);
+        divObjArray[i].style.transform = `translate(0,0)`;
+        divObjArray[i].setAttribute('data-x',0)
+        divObjArray[i].setAttribute('data-y',0)
+    }
+
+})
+
+// JavaScript 代码
+
+  $('#submit').click(function() {
+      const selectElement = document.getElementById('algorithm-selector');
+const selectedValue = selectElement.value; // 获取选择的选项的值
+
+    var counter = 0;
+        start=[[0,0,0],[0,0,0],[0,0,0]]
+    // 使用 jQuery 选择器选择所有方块
+   $('#puzzle-container .div2').each(function() {
+
+        var row = $(this).data("gridrow");
+        var column = $(this).data("gridcol");
+       start[row-1][column-1]=$(this).data("id");
+
+    });
+    // 输出结果到控制台
+
+
+    // 新建数组 0-8
+    var numArray = new Array(9);
+    var divArray2 = new Array(9);
+    divArray2=[0,1,2,3,4,5,6,7,8]
+    // 当前排布
+      for(var i=0;i<3;i++)
+          for(var j=0;j<3;j++)
+              numArray[i*3+j]=start[i][j]
+
+
+
+    // 映射到对象
+    var divObjArray = new Array(9);
+    for(var i = 0; i < divObjArray.length; i++) {
+        divObjArray[i] = document.getElementById("index_" + numArray[i]);
+    }
+
+    for(var i = 0; i < divObjArray.length; i++) {
+            if(numArray[i] === 0) {
+                divObjArray[i].setAttribute('data-id',0);
+                divObjArray[i].style.backgroundColor = "#6C6C6C";
+                continue;
+            }
+            divObjArray[i].setAttribute('data-id',numArray[i]);
+            divObjArray[i].style.backgroundColor = "#225790";  //子块颜色
+        }
+
+
+
+    var emptyIndex = 8;
+    // 获取空白格所在下标
+    function updateEmptyFun() {
+    emptyIndex = numArray.indexOf(0);
+
+    }
+    // * 为每一个格子绑定单击响应函数
+    // * 		这些格子按照点击移动时，是否有规律、规律是否一致，可以分为6组
+    // * 		第1组，没有统一规律的一组，下标分别为0,2,6,8的格子
+    // * 		第2组，移动规律为可以移动左、下、右，下标分别为1的格子
+    // * 		第3组，移动规律为可以移动左、上、右，下标分别为7的格子
+    // * 		第4组，移动规律为可以移动上、下、右，下标分别为3的格子
+    // * 		第5组，移动规律为可以移动上、下、左，下标分别为5的格子
+    // * 		第6组，移动规律为可以移动上、下、左、右，下标分别为4的格子
+    // 位置更新
+    function updatePositionFun(divIndex) {
+        {#空块在哪里#}
+        numArray[emptyIndex] = divObjArray[divIndex].getAttribute('data-id');
+        numArray[divIndex] = 0;
+
+        var a=divObjArray[emptyIndex].getAttribute('data-gridrow')
+        var b=divObjArray[emptyIndex].getAttribute('data-gridcol')
+        var c=divObjArray[divIndex].getAttribute('data-gridrow')
+        var d=divObjArray[divIndex].getAttribute('data-gridcol')
+
+        console.log("a"+a+"b"+b+"c"+c+"d"+d)
+        var x=-104
+        var y=-104
+        if(a-c===0)y=0
+        else if(a-c===1)y=104
+        if(b-d===0)x=0
+        else if(b-d===1)x=104
+
+       divObjArray[divArray2[divIndex]].setAttribute('data-x',parseInt(divObjArray[divArray2[divIndex]].getAttribute('data-x'))+parseInt(x));
+        divObjArray[divArray2[divIndex]].setAttribute('data-y',parseInt(divObjArray[divArray2[divIndex]].getAttribute('data-y'))+parseInt(y));
+        divObjArray[divArray2[emptyIndex]].setAttribute('data-x',parseInt(divObjArray[divArray2[emptyIndex]].getAttribute('data-x'))-parseInt(x));
+        divObjArray[divArray2[emptyIndex]].setAttribute('data-y',parseInt(divObjArray[divArray2[emptyIndex]].getAttribute('data-y'))-parseInt(y));
+        divObjArray[divArray2[divIndex]].style.transform = `translate(${divObjArray[divArray2[divIndex]].getAttribute('data-x')}px, ${divObjArray[divArray2[divIndex]].getAttribute('data-y')}px)`;
+        divObjArray[divArray2[emptyIndex]].style.transform = `translate(${divObjArray[divArray2[emptyIndex]].getAttribute('data-x')}px, ${divObjArray[divArray2[emptyIndex]].getAttribute('data-y')}px)`;
+        var tem=divArray2[divIndex];
+        divArray2[divIndex]=divArray2[emptyIndex];
+        divArray2[emptyIndex]=tem;
+
+
+
+
+       }
+
+    // 不同位置格子的响应函数
+    function click_pos(postion){
+        if(postion===0){
+            updateEmptyFun();
+            console.log("sss"+emptyIndex)
+            if(emptyIndex === 1 || emptyIndex === 3) {
+                updatePositionFun(0);
+            }
+        }
+
+        else if(postion===1){
+            updateEmptyFun();
+            console.log("sss"+emptyIndex)
+            var curIndex = 1;
+            if(emptyIndex === curIndex - 1 || emptyIndex === curIndex + 1 || emptyIndex === curIndex + 3) {
+                updatePositionFun(curIndex);
+            }
+        }
+
+        else if(postion===2){
+            updateEmptyFun();
+            console.log("sss"+emptyIndex)
+            if(emptyIndex === 1 || emptyIndex === 5) {
+            updatePositionFun(2);
+            }
+        }
+        else if(postion===3){
+            updateEmptyFun();
+            console.log("sss"+emptyIndex)
+            var curIndex = 3;
+            if(emptyIndex === curIndex - 3 || emptyIndex === curIndex + 3 || emptyIndex === curIndex + 1) {
+                updatePositionFun(curIndex);
+            }
+        }
+        else if(postion===4){
+            updateEmptyFun();
+            console.log("sss"+emptyIndex)
+            var curIndex = 4;
+            if(emptyIndex === curIndex - 3 || emptyIndex === curIndex + 3 || emptyIndex === curIndex - 1 || emptyIndex === curIndex + 1) {
+            updatePositionFun(curIndex);
+            }
+        }
+
+        else if(postion===5){
+            updateEmptyFun();
+            console.log("sss"+emptyIndex)
+            var curIndex = 5;
+            if(emptyIndex === curIndex - 3 || emptyIndex === curIndex + 3 || emptyIndex === curIndex - 1) {
+                updatePositionFun(curIndex);
+            }
+        }
+        else if(postion===6){
+            updateEmptyFun();
+            console.log("sss"+emptyIndex)
+            if(emptyIndex === 3 || emptyIndex === 7) {
+                updatePositionFun(6);
+            }
+        }
+
+        else if(postion==7){
+            updateEmptyFun();
+            console.log("sss"+emptyIndex)
+            curIndex = 7;
+            if(emptyIndex === curIndex - 1 || emptyIndex === curIndex + 1 || emptyIndex === curIndex - 3) {
+                updatePositionFun(curIndex);
+            }
+        }
+        else if(postion===8){
+            updateEmptyFun();
+            console.log("sss"+emptyIndex)
+            if(emptyIndex === 5 || emptyIndex === 7) {
+                updatePositionFun(8);
+            }
+        }
+
+        }
+        function task(i,j) {
+            setTimeout( function () {
+                click_pos(j);
+            }, i*800);
+            }
+     $.ajax({
+                    url: '/get_result', // 后端处理脚本的URL
+                    type: 'Get',
+                    data:{
+                        start:start,
+                        selectedValue :selectedValue
+                    },
+                    async:true,//请求是否异步，默认为异步，这也是ajax重要特
+                    dataType: "JSON",
+                    success: async function (response) {
+                        var numbs  = []
+                        if(response.status==="failure")
+                        {
+                            alert('该问题无解！')
+                            return 0
+                        }
+
+                        $('#time').text(response.time);
+                        $('#search_time').text(response.search_time);
+                        $('#depth').text(response.depth);
+                          for(var i = 0; i < response.result.length; i++){
+                            if(i<response.result.length-1){
+                                for(var j = 0; j < 3; j++){
+                                    for(var k = 0; k < 3; k++){
+                                        if ((response.result[i][j][k]!==response.result[i+1][j][k] )&& (response.result[i][j][k]!==0)){
+                                            numbs.push((j)*3+k)
+                                        }}}
+                            }
+                        }
+
+                        for(var i = 0; i < numbs.length; i++){
+                            console.log("numbs:",numbs[i])
+
+                            task(i+1,numbs[i])
+
+                        }
+
+
+
+    // 创建新Canvas元素
+
+                    },
+                    error: function (error) {
+                        {console.error('AJAX请求失败:', error);}
+                        // 处理失败后的操作
+                    }
+                });
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
