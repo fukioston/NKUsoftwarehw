@@ -8,6 +8,9 @@
 
 期末复盘在这：https://blog.csdn.net/fukioston/article/details/135566575
 
+操作系统作业写的略显敷衍，，，不好意思，，，可以参考https://github.com/WanliYoung/NKSoftware-OperatingSystem
+，学长写的比我好的多的多的多。
+
 follow me，谢谢！！
 
 另外：我不是一个很厉害的学术玩家，如果有问题可以飞书我2112966，我暂时还没毕业。
